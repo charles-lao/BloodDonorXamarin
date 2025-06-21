@@ -39,7 +39,40 @@ namespace BloodDonorXamarin.Adapters
             // Replace the contents of the view with that element
             var holder = viewHolder as DonorsAdapterViewHolder;
             holder.donorLocationTextView.Text = donor.City + ", " + donor.Country;
-            //holder.TextView.Text = items[position];
+
+            // Assign appropriate Images to Donors Blood Group
+            if (donor.BloodGroup == "O+")
+            {
+                holder.bloodGroupImageView.SetImageResource(Resource.Drawable.o_positive);
+            }
+            else if (donor.BloodGroup == "O-")
+            {
+                holder.bloodGroupImageView.SetImageResource(Resource.Drawable.o_negative);
+            }
+            else if (donor.BloodGroup == "AB-")
+            {
+                holder.bloodGroupImageView.SetImageResource(Resource.Drawable.ab_negative);
+            }
+            else if (donor.BloodGroup == "AB+")
+            {
+                holder.bloodGroupImageView.SetImageResource(Resource.Drawable.ab_positive);
+            }
+            else if (donor.BloodGroup == "B-")
+            {
+                holder.bloodGroupImageView.SetImageResource(Resource.Drawable.b_negative);
+            }
+            else if (donor.BloodGroup == "B+")
+            {
+                holder.bloodGroupImageView.SetImageResource(Resource.Drawable.b_positive);
+            }
+            else if (donor.BloodGroup == "A-")
+            {
+                holder.bloodGroupImageView.SetImageResource(Resource.Drawable.a_negative);
+            }
+            else if (donor.BloodGroup == "A+")
+            {
+                holder.bloodGroupImageView.SetImageResource(Resource.Drawable.a_positive);
+            }
         }
 
         public override int ItemCount => DonorsList.Count;

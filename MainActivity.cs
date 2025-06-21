@@ -30,12 +30,12 @@ namespace BloodDonorXamarin
         void CreateData()
         {
             listOfDonors = new List<Donor>();
-            listOfDonors.Add(new Donor { BloodGroup = "AB+", City = "Delaware", Country = "USA", Email = "ufinixacademy@gmail.com", Fullname = "Ufinix Academy", Phone = "+01 76376 883" });
-            listOfDonors.Add(new Donor { BloodGroup = "O+", City = "Munich", Country = "Germany", Email = "ufinixacademy@gmail.com", Fullname = "Ufinix Academy", Phone = "+01 76376 883" });
-            listOfDonors.Add(new Donor { BloodGroup = "O-", City = "Lagos", Country = "Nigeria", Email = "ufinixacademy@gmail.com", Fullname = "Ufinix Academy", Phone = "+01 76376 883" });
-            listOfDonors.Add(new Donor { BloodGroup = "AB+", City = "North Carolina", Country = "USA", Email = "ufinixacademy@gmail.com", Fullname = "Ufinix Academy", Phone = "+01 76376 883" });
-            listOfDonors.Add(new Donor { BloodGroup = "O+", City = "Madrid", Country = "Spain", Email = "ufinixacademy@gmail.com", Fullname = "Ufinix Academy", Phone = "+01 76376 883" });
-            listOfDonors.Add(new Donor { BloodGroup = "AB+", City = "New York", Country = "USA", Email = "ufinixacademy@gmail.com", Fullname = "Ufinix Academy", Phone = "+01 76376 883" });
+            listOfDonors.Add(new Donor { BloodGroup = "AB+", City = "Delaware", Country = "USA", Email = "ufinixacademy@gmail.com", Fullname = "Clark Lao", Phone = "+01 76376 883" });
+            listOfDonors.Add(new Donor { BloodGroup = "O+", City = "Munich", Country = "Germany", Email = "ufinixacademy@gmail.com", Fullname = "Wade Wilson", Phone = "+01 76376 883" });
+            listOfDonors.Add(new Donor { BloodGroup = "O-", City = "Lagos", Country = "Nigeria", Email = "ufinixacademy@gmail.com", Fullname = "Bruce Wayne", Phone = "+01 76376 883" });
+            listOfDonors.Add(new Donor { BloodGroup = "B-", City = "North Carolina", Country = "USA", Email = "ufinixacademy@gmail.com", Fullname = "Clark Kent", Phone = "+01 76376 883" });
+            listOfDonors.Add(new Donor { BloodGroup = "O+", City = "Madrid", Country = "Spain", Email = "ufinixacademy@gmail.com", Fullname = "Naruto Uzumaki", Phone = "+01 76376 883" });
+            listOfDonors.Add(new Donor { BloodGroup = "A+", City = "New York", Country = "USA", Email = "ufinixacademy@gmail.com", Fullname = "Sakura Haruno", Phone = "+01 76376 883" });
         }
 
         void SetupRecyclerView()
