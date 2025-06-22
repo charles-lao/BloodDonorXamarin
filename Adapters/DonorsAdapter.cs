@@ -11,6 +11,10 @@ namespace BloodDonorXamarin.Adapters
     {
         public event EventHandler<DonorsAdapterClickEventArgs> ItemClick;
         public event EventHandler<DonorsAdapterClickEventArgs> ItemLongClick;
+        public event EventHandler<DonorsAdapterClickEventArgs> CallClick;
+        public event EventHandler<DonorsAdapterClickEventArgs> EmailClick;
+        public event EventHandler<DonorsAdapterClickEventArgs> DeleteClick;
+
         List<Donor> DonorsList;
 
         public DonorsAdapter(List<Donor> data)
@@ -27,7 +31,7 @@ namespace BloodDonorXamarin.Adapters
 
             itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.donor_row, parent, false);
 
-            var vh = new DonorsAdapterViewHolder(itemView, OnClick, OnLongClick);
+            var vh = new DonorsAdapterViewHolder(itemView, OnClick, OnLongClick, OnCallClick, OnEmailClick, OnDeleteClick);
             return vh;
         }
 
@@ -38,6 +42,7 @@ namespace BloodDonorXamarin.Adapters
 
             // Replace the contents of the view with that element
             var holder = viewHolder as DonorsAdapterViewHolder;
+            holder.donorNameTextView.Text = donor.Fullname;
             holder.donorLocationTextView.Text = donor.City + ", " + donor.Country;
 
             // Assign appropriate Images to Donors Blood Group
@@ -80,6 +85,9 @@ namespace BloodDonorXamarin.Adapters
         void OnClick(DonorsAdapterClickEventArgs args) => ItemClick?.Invoke(this, args);
         void OnLongClick(DonorsAdapterClickEventArgs args) => ItemLongClick?.Invoke(this, args);
 
+        void OnCallClick(DonorsAdapterClickEventArgs args) => CallClick?.Invoke(this, args);
+        void OnEmailClick(DonorsAdapterClickEventArgs args) => EmailClick?.Invoke(this, args);
+        void OnDeleteClick(DonorsAdapterClickEventArgs args) => DeleteClick?.Invoke(this, args);
     }
 
     public class DonorsAdapterViewHolder : RecyclerView.ViewHolder
@@ -95,7 +103,8 @@ namespace BloodDonorXamarin.Adapters
 
 
         public DonorsAdapterViewHolder(View itemView, Action<DonorsAdapterClickEventArgs> clickListener,
-                            Action<DonorsAdapterClickEventArgs> longClickListener) : base(itemView)
+                            Action<DonorsAdapterClickEventArgs> longClickListener, Action<DonorsAdapterClickEventArgs> callClickListener,
+                            Action<DonorsAdapterClickEventArgs> emailClickListener, Action<DonorsAdapterClickEventArgs> deleteClickListener) : base(itemView)
         {
             //TextView = v;
             donorNameTextView = (TextView)itemView.FindViewById(Resource.Id.donorNameTextView);
@@ -107,6 +116,9 @@ namespace BloodDonorXamarin.Adapters
 
             itemView.Click += (sender, e) => clickListener(new DonorsAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
             itemView.LongClick += (sender, e) => longClickListener(new DonorsAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
+            callLayout.Click += (sender, e) => callClickListener(new DonorsAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
+            emailLayout.Click += (sender, e) => emailClickListener(new DonorsAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
+            deleteLayout.Click += (sender, e) => deleteClickListener(new DonorsAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
         }
     }
 

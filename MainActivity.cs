@@ -1,8 +1,11 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.Widget;
+using Android.Widget;
 using AndroidX.AppCompat.App;
+using AndroidX.AppCompat.Widget;
 using BloodDonorXamarin.Adapters;
 using BloodDonorXamarin.DataModels;
 using System.Collections.Generic;
@@ -42,7 +45,49 @@ namespace BloodDonorXamarin
         {
             donorsRecyclerView.SetLayoutManager(new LinearLayoutManager(donorsRecyclerView.Context));
             donorsAdapter = new DonorsAdapter(listOfDonors);
+            donorsAdapter.ItemClick += DonorsAdapter_ItemClick;
+            donorsAdapter.CallClick += DonorsAdapter_CallClick;
+            donorsAdapter.EmailClick += DonorsAdapter_EmailClick;
+            donorsAdapter.DeleteClick += DonorsAdapter_DeleteClick;
+
             donorsRecyclerView.SetAdapter(donorsAdapter);
+        }
+
+        private void DonorsAdapter_DeleteClick(object sender, DonorsAdapterClickEventArgs e)
+        {
+            Toast.MakeText(this, "Delete Button was clicked", ToastLength.Short).Show();
+        }
+
+        private void DonorsAdapter_EmailClick(object sender, DonorsAdapterClickEventArgs e)
+        {
+            Toast.MakeText(this, "Email Button was clicked", ToastLength.Short).Show();
+        }
+
+        private void DonorsAdapter_CallClick(object sender, DonorsAdapterClickEventArgs e)
+        {
+            var donor = listOfDonors[e.Position];
+
+            AndroidX.AppCompat.App.AlertDialog.Builder CallAlert = new AndroidX.AppCompat.App.AlertDialog.Builder(this);
+            CallAlert.SetMessage("Call " + donor.Fullname);
+
+            CallAlert.SetPositiveButton("Call", (alert, args) =>
+            {
+                var uri = Android.Net.Uri.Parse("tel:" + donor.Phone);
+                var intent = new Intent(Intent.ActionDial, uri);
+                StartActivity(intent);
+            });
+
+            CallAlert.SetNegativeButton("Cancel", (alert, args) =>
+            {
+                CallAlert.Dispose();
+            });
+
+            CallAlert.Show();
+        }
+
+        private void DonorsAdapter_ItemClick(object sender, DonorsAdapterClickEventArgs e)
+        {
+            Toast.MakeText(this, "Row was clicked", ToastLength.Short).Show();
         }
     }
 }
