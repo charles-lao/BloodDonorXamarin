@@ -60,7 +60,28 @@ namespace BloodDonorXamarin
 
         private void DonorsAdapter_EmailClick(object sender, DonorsAdapterClickEventArgs e)
         {
-            Toast.MakeText(this, "Email Button was clicked", ToastLength.Short).Show();
+            var donor = listOfDonors[e.Position];
+
+            AndroidX.AppCompat.App.AlertDialog.Builder EmailAlert = new AndroidX.AppCompat.App.AlertDialog.Builder(this);
+            EmailAlert.SetMessage("Send Mail to " + donor.Fullname);
+
+            EmailAlert.SetPositiveButton("Send", (alert, args) =>
+            {
+                // Send Email
+                Intent intent = new Intent();
+                intent.SetType("plain/text");
+                intent.SetAction(Intent.ActionSend);
+                intent.PutExtra(Intent.ExtraEmail, new string[] { donor.Email });
+                intent.PutExtra(Intent.ExtraSubject, "Enquiry on your availability for blood donation" );
+                StartActivity(intent);
+            });
+
+            EmailAlert.SetNegativeButton("Cancel", (alert, args) =>
+            {
+                EmailAlert.Dispose();
+            });
+
+            EmailAlert.Show();
         }
 
         private void DonorsAdapter_CallClick(object sender, DonorsAdapterClickEventArgs e)
