@@ -55,8 +55,28 @@ namespace BloodDonorXamarin
 
         private void DonorsAdapter_DeleteClick(object sender, DonorsAdapterClickEventArgs e)
         {
-            Toast.MakeText(this, "Delete Button was clicked", ToastLength.Short).Show();
-        }
+            var donor = listOfDonors[e.Position];
+
+            AndroidX.AppCompat.App.AlertDialog.Builder DeleteAlert = new AndroidX.AppCompat.App.AlertDialog.Builder(this);
+
+            DeleteAlert.SetMessage("Are you sure");
+            DeleteAlert.SetTitle("Delete Donor");
+
+            DeleteAlert.SetPositiveButton("Delete", (alert, args) =>
+            {
+                listOfDonors.RemoveAt(e.Position);
+                //donorsAdapter.NotifyDataSetChanged();
+                donorsAdapter.NotifyItemRemoved(e.Position);
+            });
+
+            DeleteAlert.SetNegativeButton("Cancel", (alert, args) =>
+            {
+                DeleteAlert.Dispose();
+            });
+
+            DeleteAlert.Show();
+        }   
+
 
         private void DonorsAdapter_EmailClick(object sender, DonorsAdapterClickEventArgs e)
         {
