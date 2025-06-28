@@ -8,6 +8,7 @@ using AndroidX.AppCompat.App;
 using AndroidX.AppCompat.Widget;
 using BloodDonorXamarin.Adapters;
 using BloodDonorXamarin.DataModels;
+using BloodDonorXamarin.Fragments;
 using Google.Android.Material.FloatingActionButton;
 using System.Collections.Generic;
 
@@ -19,6 +20,7 @@ namespace BloodDonorXamarin
         RecyclerView donorsRecyclerView;
         DonorsAdapter donorsAdapter;
         List<Donor> listOfDonors;
+        NewDonorFragment newDonorFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -35,7 +37,9 @@ namespace BloodDonorXamarin
 
         private void Fab_Click(object sender, System.EventArgs e)
         {
-            Toast.MakeText(this, "Floating Action Button Clicked", ToastLength.Short).Show();
+            newDonorFragment = new NewDonorFragment();
+            var trans = SupportFragmentManager.BeginTransaction();
+            newDonorFragment.Show(trans, "new donor");
         }
 
         void CreateData()
