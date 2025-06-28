@@ -8,6 +8,7 @@ using AndroidX.AppCompat.App;
 using AndroidX.AppCompat.Widget;
 using BloodDonorXamarin.Adapters;
 using BloodDonorXamarin.DataModels;
+using Google.Android.Material.FloatingActionButton;
 using System.Collections.Generic;
 
 namespace BloodDonorXamarin
@@ -24,10 +25,17 @@ namespace BloodDonorXamarin
             base.OnCreate(savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
-
+            SupportActionBar.Title = "Blood Donors";
             donorsRecyclerView = (RecyclerView)FindViewById(Resource.Id.donorsRecyclerView);
+            FloatingActionButton fab = (FloatingActionButton)FindViewById(Resource.Id.fab);
+            fab.Click += Fab_Click;
             CreateData();
             SetupRecyclerView();
+        }
+
+        private void Fab_Click(object sender, System.EventArgs e)
+        {
+            Toast.MakeText(this, "Floating Action Button Clicked", ToastLength.Short).Show();
         }
 
         void CreateData()
