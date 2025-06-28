@@ -40,6 +40,18 @@ namespace BloodDonorXamarin
             newDonorFragment = new NewDonorFragment();
             var trans = SupportFragmentManager.BeginTransaction();
             newDonorFragment.Show(trans, "new donor");
+            newDonorFragment.OnDonorRegistered += NewDonorFragment_OnDonorRegistered;
+        }
+
+        private void NewDonorFragment_OnDonorRegistered(object sender, NewDonorFragment.DonorDetailsEventArgs e)
+        {
+            if (newDonorFragment != null)
+            {
+                newDonorFragment.Dismiss();
+                newDonorFragment = null;
+            }
+            listOfDonors.Insert(0, e.Donor);
+            donorsAdapter.NotifyItemInserted(0);
         }
 
         void CreateData()
