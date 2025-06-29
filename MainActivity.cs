@@ -35,7 +35,8 @@ namespace BloodDonorXamarin
             donorsRecyclerView = (RecyclerView)FindViewById(Resource.Id.donorsRecyclerView);
             FloatingActionButton fab = (FloatingActionButton)FindViewById(Resource.Id.fab);
             fab.Click += Fab_Click;
-            CreateData();
+            // CreateData();
+            RetrieveData();
             SetupRecyclerView();
             editor = pref.Edit();
         }
@@ -74,6 +75,15 @@ namespace BloodDonorXamarin
             listOfDonors.Add(new Donor { BloodGroup = "A+", City = "New York", Country = "USA", Email = "ufinixacademy@gmail.com", Fullname = "Sakura Haruno", Phone = "+01 76376 883" });
         }
 
+        void RetrieveData()
+        {
+            string json = pref.GetString("donors", "");
+            if (!string.IsNullOrEmpty(json))
+            {
+                listOfDonors = JsonConvert.DeserializeObject<List<Donor>>(json);
+            }
+        }
+
         void SetupRecyclerView()
         {
             donorsRecyclerView.SetLayoutManager(new LinearLayoutManager(donorsRecyclerView.Context));
@@ -100,6 +110,10 @@ namespace BloodDonorXamarin
                 listOfDonors.RemoveAt(e.Position);
                 //donorsAdapter.NotifyDataSetChanged();
                 donorsAdapter.NotifyItemRemoved(e.Position);
+
+                string jsonString = JsonConvert.SerializeObject(listOfDonors);
+                editor.PutString("donors", jsonString);
+                editor.Apply();
             });
 
             DeleteAlert.SetNegativeButton("Cancel", (alert, args) =>
