@@ -81,7 +81,7 @@ namespace BloodDonorXamarin.Fragments
                 Toast.MakeText(Activity, "Please provide a valid name", ToastLength.Short).Show();
                 return;
             }
-            else if (!email.Contains("@")
+            else if (!email.Contains("@"))
             {
                 Toast.MakeText(Activity, "Please provide a valid email address", ToastLength.Short).Show();
                 return;

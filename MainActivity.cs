@@ -2,10 +2,10 @@
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V7.Widget;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.AppCompat.Widget;
+using AndroidX.RecyclerView.Widget;
 using BloodDonorXamarin.Adapters;
 using BloodDonorXamarin.DataModels;
 using BloodDonorXamarin.Fragments;
@@ -20,8 +20,10 @@ namespace BloodDonorXamarin
     {
         RecyclerView donorsRecyclerView;
         DonorsAdapter donorsAdapter;
-        List<Donor> listOfDonors;
+        List<Donor> listOfDonors = new List<Donor>();
         NewDonorFragment newDonorFragment;
+
+        TextView noDonorTextView;
 
         ISharedPreferences pref = Application.Context.GetSharedPreferences("donors", FileCreationMode.Private);
         ISharedPreferencesEditor editor;
@@ -32,12 +34,24 @@ namespace BloodDonorXamarin
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
             SupportActionBar.Title = "Blood Donors";
+
+            noDonorTextView = (TextView)FindViewById(Resource.Id.noDonorTextView);
             donorsRecyclerView = (RecyclerView)FindViewById(Resource.Id.donorsRecyclerView);
             FloatingActionButton fab = (FloatingActionButton)FindViewById(Resource.Id.fab);
             fab.Click += Fab_Click;
+
             // CreateData();
             RetrieveData();
-            SetupRecyclerView();
+
+            if (listOfDonors.Count > 0)
+            {
+                SetupRecyclerView();
+            }
+            else
+            {
+                noDonorTextView.Visibility = Android.Views.ViewStates.Visible;
+            }
+            
             editor = pref.Edit();
         }
 
@@ -56,12 +70,28 @@ namespace BloodDonorXamarin
                 newDonorFragment.Dismiss();
                 newDonorFragment = null;
             }
-            listOfDonors.Insert(0, e.Donor);
-            donorsAdapter.NotifyItemInserted(0);
 
-            string jsonString = JsonConvert.SerializeObject(listOfDonors);
-            editor.PutString("donors", jsonString);
-            editor.Apply();
+            if (listOfDonors.Count > 0)
+            {
+                
+                listOfDonors.Insert(0, e.Donor);
+                donorsAdapter.NotifyItemInserted(0);
+
+                string jsonString = JsonConvert.SerializeObject(listOfDonors);
+                editor.PutString("donors", jsonString);
+                editor.Apply();
+            }
+            else
+            {
+                listOfDonors.Add(e.Donor);
+
+                string jsonString = JsonConvert.SerializeObject(listOfDonors);
+                editor.PutString("donors", jsonString);
+                editor.Apply();
+
+                SetupRecyclerView();
+            }
+           
         }
 
         void CreateData()
@@ -94,6 +124,8 @@ namespace BloodDonorXamarin
             donorsAdapter.DeleteClick += DonorsAdapter_DeleteClick;
 
             donorsRecyclerView.SetAdapter(donorsAdapter);
+
+            noDonorTextView.Visibility = Android.Views.ViewStates.Invisible;
         }
 
         private void DonorsAdapter_DeleteClick(object sender, DonorsAdapterClickEventArgs e)
