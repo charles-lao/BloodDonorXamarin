@@ -10,6 +10,7 @@ using BloodDonorXamarin.Adapters;
 using BloodDonorXamarin.DataModels;
 using BloodDonorXamarin.Fragments;
 using Google.Android.Material.FloatingActionButton;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace BloodDonorXamarin
@@ -22,6 +23,9 @@ namespace BloodDonorXamarin
         List<Donor> listOfDonors;
         NewDonorFragment newDonorFragment;
 
+        ISharedPreferences pref = Application.Context.GetSharedPreferences("donors", FileCreationMode.Private);
+        ISharedPreferencesEditor editor;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -33,6 +37,7 @@ namespace BloodDonorXamarin
             fab.Click += Fab_Click;
             CreateData();
             SetupRecyclerView();
+            editor = pref.Edit();
         }
 
         private void Fab_Click(object sender, System.EventArgs e)
@@ -52,6 +57,10 @@ namespace BloodDonorXamarin
             }
             listOfDonors.Insert(0, e.Donor);
             donorsAdapter.NotifyItemInserted(0);
+
+            string jsonString = JsonConvert.SerializeObject(listOfDonors);
+            editor.PutString("donors", jsonString);
+            editor.Apply();
         }
 
         void CreateData()
